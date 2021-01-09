@@ -308,16 +308,22 @@ function row_after_focus() {
 }
 
 function remove_draft(draft_row) {
-    // Deletes the draft and removes it from the list
-    const draft_id = draft_row.data("draft-id");
+    // Animation when a draft is removed
+    draft_row.css("transition", "transform 0.5s");
+    draft_row.css("transform", "translate(2000px, 0)");
 
-    exports.draft_model.deleteDraft(draft_id);
+    setTimeout(() => {
+        // Deletes the draft and removes it from the list
+        const draft_id = draft_row.data("draft-id");
 
-    draft_row.remove();
+        exports.draft_model.deleteDraft(draft_id);
 
-    if ($("#drafts_table .draft-row").length === 0) {
-        $("#drafts_table .no-drafts").show();
-    }
+        draft_row.remove();
+
+        if ($("#drafts_table .draft-row").length === 0) {
+            $("#drafts_table .no-drafts").show();
+        }
+    }, 500);
 }
 
 exports.launch = function () {
