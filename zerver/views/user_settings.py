@@ -250,6 +250,8 @@ def set_avatar_backend(request: HttpRequest, user_profile: UserProfile) -> HttpR
         return json_error(_("Uploaded file is larger than the allowed limit of {} MiB").format(
             settings.MAX_AVATAR_FILE_SIZE,
         ))
+
+    print("yaha to pahuch gya mai!")
     upload_avatar_image(user_file, user_profile, user_profile)
     do_change_avatar_fields(user_profile, UserProfile.AVATAR_FROM_USER, acting_user=user_profile)
     user_avatar_url = avatar_url(user_profile)

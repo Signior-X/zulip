@@ -120,6 +120,9 @@ def exif_rotate(image: Image) -> Image:
     return image
 
 def resize_avatar(image_data: bytes, size: int=DEFAULT_AVATAR_SIZE) -> bytes:
+
+    print("firr kabhi iss image vaale ko bhi dekhenge!")
+
     try:
         im = Image.open(io.BytesIO(image_data))
         im = exif_rotate(im)
@@ -129,9 +132,10 @@ def resize_avatar(image_data: bytes, size: int=DEFAULT_AVATAR_SIZE) -> bytes:
     except DecompressionBombError:
         raise BadImageError(_("Image size exceeds limit."))
     out = io.BytesIO()
+    
     if im.mode == 'CMYK':
         im = im.convert('RGB')
-    im.save(out, format='png')
+    im.save(out, format='gif', save_all=True, loop=0)
     return out.getvalue()
 
 def resize_logo(image_data: bytes) -> bytes:
@@ -396,15 +400,19 @@ class S3UploadBackend(ZulipUploadBackend):
             image_data,
         )
 
+        print("what is this fajgbjiabijaejifjabgjabhgbahgfbhg jgbaejgf anfjabgiae fja ghaepg dobgupa aeohgjg j")
         # custom 500px wide version
         resized_medium = resize_avatar(image_data, MEDIUM_AVATAR_SIZE)
         upload_image_to_s3(
             self.avatar_bucket,
-            s3_file_name + "-medium.png",
-            "image/png",
+            s3_file_name + "-medium.gif",
+            "image/gif",
             target_user_profile,
             resized_medium,
         )
+
+
+        print("donno is this fajgbjiabijaejifjabgjabhgbahgfbhg jgbaejgf anfjabgiae fja ghaepg dobgupa aeohgjg j")
 
         resized_data = resize_avatar(image_data)
         upload_image_to_s3(
@@ -421,6 +429,8 @@ class S3UploadBackend(ZulipUploadBackend):
                             acting_user_profile: UserProfile,
                             target_user_profile: UserProfile,
                             content_type: Optional[str] = None) -> None:
+
+        print("hum yaha hai!")
         if content_type is None:
             content_type = guess_type(user_file.name)[0]
         s3_file_name = user_avatar_path(target_user_profile)
@@ -693,18 +703,20 @@ class LocalUploadBackend(ZulipUploadBackend):
         return delete_local_file('files', path_id)
 
     def write_avatar_images(self, file_path: str, image_data: bytes) -> None:
+        print("Arre hamm yaha thei!")
         write_local_file('avatars', file_path + '.original', image_data)
 
         resized_data = resize_avatar(image_data)
         write_local_file('avatars', file_path + '.png', resized_data)
 
         resized_medium = resize_avatar(image_data, MEDIUM_AVATAR_SIZE)
-        write_local_file('avatars', file_path + '-medium.png', resized_medium)
+        write_local_file('avatars', file_path + '.gif', resized_medium)
 
     def upload_avatar_image(self, user_file: File,
                             acting_user_profile: UserProfile,
                             target_user_profile: UserProfile,
                             content_type: Optional[str] = None) -> None:
+        print("hum yaha hai point 2")
         file_path = user_avatar_path(target_user_profile)
 
         image_data = user_file.read()
@@ -861,6 +873,7 @@ def delete_message_image(path_id: str) -> bool:
 def upload_avatar_image(user_file: File, acting_user_profile: UserProfile,
                         target_user_profile: UserProfile,
                         content_type: Optional[str]=None) -> None:
+    print("nhi ham yaha hai 3")
     upload_backend.upload_avatar_image(user_file, acting_user_profile,
                                        target_user_profile, content_type=content_type)
 
