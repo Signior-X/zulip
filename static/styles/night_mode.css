@@ -10,6 +10,14 @@ body.night-mode {
         color: inherit;
     }
 
+    .table-sticky-headers th {
+        background-color: hsl(0, 0%, 0%) !important;
+
+        &:hover {
+            background-color: hsl(211, 29%, 14%) !important;
+        }
+    }
+
     .app-main,
     .header-main,
     #message_view_header_underpadding,

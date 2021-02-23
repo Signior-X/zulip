@@ -249,18 +249,30 @@ td .button {
         }
     }
 
+    .table-sticky-headers {
+        thead th {
+            position: sticky;
+            top: 0;
+        }
+    }
+
     .table-striped {
         table-layout: auto;
+        border-collapse: separate;
 
         tbody {
             border-bottom: none;
         }
 
         thead th {
-            background-color: inherit;
             color: inherit;
+            background-color: hsl(0, 0%, 100%);
             border-top: 1px solid hsla(0, 0%, 0%, 0.2) !important;
             border-bottom: 1px solid hsla(0, 0%, 0%, 0.2) !important;
+
+            &:hover {
+                background-color: hsla(0, 0%, 95%) !important;
+            }
 
             &.active::after,
             &[data-sort]:hover::after {
