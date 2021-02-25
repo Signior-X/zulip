@@ -2,6 +2,7 @@ const away_user_ids = new Set();
 const user_info = new Map();
 
 export function server_update(opts) {
+    console.log('opts', opts);
     channel.post({
         url: "/json/users/me/status",
         data: {
@@ -44,6 +45,7 @@ export function is_away(user_id) {
 }
 
 export function get_status_text(user_id) {
+    console.log(user_info)
     return user_info.get(user_id);
 }
 

@@ -540,12 +540,14 @@ exports.initialize = function () {
         "mouseenter",
         ".user-presence-link, .user_sidebar_entry .user_circle, .user_sidebar_entry .selectable_sidebar_block",
         (e) => {
+            console.log("mouse-entered");
             e.stopPropagation();
             const elem = $(e.currentTarget)
                 .closest(".user_sidebar_entry")
                 .find(".user-presence-link");
             const user_id_string = elem.attr("data-user-id");
             const title_data = buddy_data.get_title_data(user_id_string, false);
+            console.log(title_data);
             do_render_buddy_list_tooltip(elem, title_data);
         },
     );
