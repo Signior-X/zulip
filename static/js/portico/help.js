@@ -92,7 +92,7 @@ const update_page = function (cache, path) {
         $(".markdown .content").html(cache.get(path).html);
         document.title = cache.get(path).title;
         render_code_sections();
-        scroll_top_if_empty_hash($(".markdown"));
+        scroll_top_if_empty_hash($("html"));
     } else {
         loading.name = path;
         fetch_page(path, (article) => {
@@ -100,7 +100,7 @@ const update_page = function (cache, path) {
             $(".markdown .content").html(article.html);
             loading.name = null;
             document.title = article.title;
-            scroll_top_if_empty_hash($(".markdown"));
+            scroll_top_if_empty_hash($("html"));
         });
     }
     google_analytics.config({page_path: path});
@@ -164,7 +164,5 @@ window.addEventListener("popstate", () => {
     const path = window.location.pathname;
     update_page(cache, path);
 });
-
-$("body").addClass("noscroll");
 
 $(".highlighted")[0].scrollIntoView({block: "center"});

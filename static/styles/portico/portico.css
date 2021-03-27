@@ -2,7 +2,6 @@ body {
     background-color: hsl(0, 0%, 98%);
     font-family: "Source Sans 3", sans-serif;
     line-height: 150%;
-    height: 100%;
     font-weight: 300;
     font-size: 17px;
 }
@@ -124,7 +123,6 @@ html {
     display: inline-flex;
 
     box-shadow: 0 -20px 50px hsla(0, 0%, 0%, 0.04);
-    overflow: auto;
 
     color: hsl(0, 0%, 27%);
 
@@ -151,7 +149,7 @@ html {
         height: calc(100vh - 59px);
 
         border-right: 1px solid hsl(219, 10%, 97%);
-        overflow: auto;
+        position: fixed;
 
         background-color: hsl(153, 32%, 55%);
         color: hsl(0, 0%, 100%);
@@ -265,7 +263,7 @@ html {
 .help .markdown {
     background-color: hsl(0, 0%, 100%);
     width: calc(100vw - 300px);
-    height: calc(100vh - 59px);
+    margin-left: 300px;
 }
 
 .help-center ol,
@@ -1356,6 +1354,7 @@ input.new-organization-button {
     .app.help {
         .markdown {
             width: 100vw;
+            margin-left: 0;
 
             .content {
                 max-width: none;
@@ -1367,7 +1366,7 @@ input.new-organization-button {
             display: block;
             position: fixed;
             top: 70px;
-            left: 9px;
+            right: calc(100% - 40px);
             fill: hsl(0, 0%, 100%);
             z-index: 2;
             transition: all 0.3s ease;
@@ -1377,7 +1376,7 @@ input.new-organization-button {
         .sidebar {
             position: fixed;
             top: 59px;
-            right: calc(100vw - 50px);
+            right: calc(100% - 50px);
             width: 100%;
             min-width: unset;
             height: calc(100vh - 59px);
@@ -1397,7 +1396,7 @@ input.new-organization-button {
             }
 
             + .hamburger {
-                transform: translateX(calc(100vw - 50px));
+                right: 12px;
             }
 
             ~ .markdown {

@@ -2,7 +2,6 @@
     font-weight: 400;
     font-size: 1rem;
     line-height: 1.5;
-    overflow: auto;
 
     h1[id],
     h2[id],
@@ -62,6 +61,7 @@
     h3 {
         font-weight: 700;
         user-select: none;
+        scroll-margin-top: 70px;
 
         &:hover {
             cursor: pointer;
@@ -200,6 +200,7 @@
 
         @media (width <= 500px) {
             padding: 10px;
+            overflow: auto;
         }
     }
 
