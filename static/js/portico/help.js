@@ -65,14 +65,10 @@ function render_code_sections() {
     });
 }
 
-function scrollToHash(simplebar) {
-    const hash = window.location.hash;
-    const scrollbar = simplebar.getScrollElement();
-    if (hash !== "" && $(hash).length > 0) {
-        const position = $(hash).position().top - $(scrollbar.firstChild).position().top;
-        scrollbar.scrollTop = position;
-    } else {
-        scrollbar.scrollTop = 0;
+function scroll_top_if_empty_hash(ele) {
+    // The scrolls the ele to top if location hash is empty
+    if (window.location.hash === "") {
+        ele.scrollTop(0);
     }
 }
 
@@ -80,8 +76,6 @@ const cache = new Map();
 const loading = {
     name: null,
 };
-
-const markdownSB = new SimpleBar($(".markdown")[0]);
 
 const fetch_page = function (path, callback) {
     $.get(path, (res) => {
@@ -98,7 +92,7 @@ const update_page = function (cache, path) {
         $(".markdown .content").html(cache.get(path).html);
         document.title = cache.get(path).title;
         render_code_sections();
-        scrollToHash(markdownSB);
+        scroll_top_if_empty_hash($(".markdown"));
     } else {
         loading.name = path;
         fetch_page(path, (article) => {
@@ -106,7 +100,7 @@ const update_page = function (cache, path) {
             $(".markdown .content").html(article.html);
             loading.name = null;
             document.title = article.title;
-            scrollToHash(markdownSB);
+            scroll_top_if_empty_hash($(".markdown"));
         });
     }
     google_analytics.config({page_path: path});
@@ -150,7 +144,7 @@ $(document).on(
     ".markdown .content h1, .markdown .content h2, .markdown .content h3",
     function () {
         window.location.hash = $(this).attr("id");
-        scrollToHash(markdownSB);
+        // The browser scrollbar will automatically handle the scroll
     },
 );
 
@@ -165,10 +159,6 @@ $(".markdown").on("click", () => {
 });
 
 render_code_sections();
-
-// Finally, make sure if we loaded a window with a hash, we scroll
-// to the right place.
-scrollToHash(markdownSB);
 
 window.addEventListener("popstate", () => {
     const path = window.location.pathname;
