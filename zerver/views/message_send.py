@@ -276,6 +276,14 @@ def send_message_backend(
     if (delivery_type == "send_later" or delivery_type == "remind") and defer_until is None:
         return json_error(_("Missing deliver_at in a request for delayed message delivery"))
 
+    # But we should not do it now as older ones will have
+    # problem
+    # Allowing only three in a group PM at max
+    if (message_type_name == "private" and len(message_to) > 2):
+        print("Do not allow", len(message_to))
+        return json_error("At max 3 are allowed in group PM")
+
+
     if (delivery_type == "send_later" or delivery_type == "remind") and defer_until is not None:
         return handle_deferred_message(
             sender,
