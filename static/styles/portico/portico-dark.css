@@ -1,0 +1,19 @@
+body.night-mode {
+    --color-bg: hsl(212, 28%, 18%);
+    --color-bg-highlight: hsla(0, 0%, 0%, 0.2);
+    --color-text: hsl(236, 33%, 90%);
+
+    --color-body-bg: var(--color-bg);
+    --color-header-bg: var(--color-bg-highlight);
+    --color-header-text: var(--color-text);
+    --color-content-bg: var(--color-bg);
+    --color-content-text: var(--color-text);
+    --color-btn-bg: var(--color-bg-highlight);
+    --color-btn-text: var(--color-text);
+    --color-sidebar-bg: hsl(212, 26%, 17%);
+    --color-sidebar-text: var(--color-text);
+    --color-sidebar-border: hsl(0, 0%, 45%);
+    --color-sidebar-text-highlighted: var(--color-bg-highlight);
+    --color-border-light: #343f4a;
+    --color-border-dark: hsl(0, 0%, 87%);
+}

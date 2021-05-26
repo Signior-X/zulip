@@ -230,15 +230,15 @@ html {
 }
 
 .header {
-    color: hsl(0, 0%, 27%);
-    background-color: hsl(0, 0%, 100%);
+    color: var(--color-header-text);
+    background-color: var(--color-header-bg);
     position: fixed;
     width: 100%;
     top: 0;
 
     .top-links a,
     .header-main .logo span {
-        color: hsl(0, 0%, 27%);
+        color: var(--color-header-text);
     }
 }
 

@@ -1,5 +1,23 @@
 body {
-    background-color: hsl(0, 0%, 98%);
+    --color-bg: hsl(0, 0%, 100%);
+    --color-bg-highlight: hsl(0, 0%, 88%);
+    --color-text: hsl(0, 0%, 0%);
+
+    --color-body-bg: hsl(0, 0%, 98%);
+    --color-header-bg: var(--color-bg);
+    --color-header-text: hsl(0, 0%, 27%);
+    --color-content-bg: var(--color-bg);
+    --color-content-text: hsl(0, 0%, 27%);
+    --color-btn-bg: var(--color-bg);
+    --color-btn-text: var(--color-text);
+    --color-sidebar-bg: hsl(153, 32%, 55%);
+    --color-sidebar-text: hsl(0, 0%, 100%);
+    --color-sidebar-border: hsl(219, 10%, 97%);
+    --color-sidebar-text-highlighted: hsl(152, 40%, 42%);
+    --color-border-light: hsl(0, 0%, 93%);
+    --color-border-dark: hsl(0, 0%, 87%);
+
+    background-color: var(--color-body-bg);
     font-family: "Source Sans 3", sans-serif;
     line-height: 150%;
     height: 100%;
@@ -57,7 +75,8 @@ html {
     padding: 15px 0;
     height: 29px;
 
-    background-color: hsl(0, 0%, 100%);
+    background-color: var(--color-header-bg);
+    color: var(--color-header-text);
     box-shadow: 0 0 4px hsla(0, 0%, 0%, 0.1);
 
     z-index: 100;
@@ -150,11 +169,11 @@ html {
         /* 100vh - navbar - paddingTop - paddingBottom - bottomNav */
         height: calc(100vh - 59px);
 
-        border-right: 1px solid hsl(219, 10%, 97%);
+        border-right: 1px solid var(--color-sidebar-border);
         overflow: auto;
 
-        background-color: hsl(153, 32%, 55%);
-        color: hsl(0, 0%, 100%);
+        background-color: var(--color-sidebar-bg);
+        color: var(--color-sidebar-text);
 
         -webkit-overflow-scrolling: touch;
 
@@ -246,7 +265,7 @@ html {
 
         a {
             &.highlighted {
-                background-color: hsl(152, 40%, 42%);
+                background-color: var(--color-sidebar-text-highlighted);
 
                 /* Extend highlight to entire width of sidebar, not just link area */
                 /* This has been changed from "+" to "- -" because of issue #8403.
@@ -263,7 +282,8 @@ html {
 }
 
 .help .markdown {
-    background-color: hsl(0, 0%, 100%);
+    background-color: var(--color-content-bg);
+    color: var(--color-content-text);
     width: calc(100vw - 300px);
     height: calc(100vh - 59px);
 }
@@ -645,6 +665,8 @@ input.text-error {
         cursor: pointer;
 
         .realm-name {
+            background-color: var(--color-btn-bg);
+            color: var(--color-btn-text);
             display: inline-block;
             vertical-align: top;
             margin: 0 5px 0 -4px;
