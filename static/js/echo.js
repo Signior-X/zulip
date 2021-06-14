@@ -4,6 +4,7 @@ import * as alert_words from "./alert_words";
 import {all_messages_data} from "./all_messages_data";
 import * as blueslip from "./blueslip";
 import * as compose from "./compose";
+import * as drafts from "./drafts";
 import * as local_message from "./local_message";
 import * as markdown from "./markdown";
 import * as message_events from "./message_events";
@@ -235,6 +236,19 @@ export function try_deliver_locally(message_request) {
         return undefined;
     }
 
+    // Only saving in draft for locally echoed message
+    // All set, the message will be locally echoed here
+    // So, save in draft here
+    // This will not save in the case above of the any
+    // situation gets true  as for example see line 228
+    // sending failing message and then storing in draft
+    // in update draft, only a draft is saved if it is
+    // at least 3 characters long
+    blueslip.log("try deliver locallly");
+    const draft_id = drafts.update_draft();
+    blueslip.log("Request final", message_request, draft_id);
+    message_request.draft_id = draft_id;
+
     const message = insert_local_message(message_request, local_id_float);
     return message;
 }
@@ -318,6 +332,7 @@ export function edit_locally(message, request) {
 }
 
 export function reify_message_id(local_id, server_id) {
+    blueslip.log("reify_message_id", local_id, server_id);
     const message = waiting_for_id.get(local_id);
     waiting_for_id.delete(local_id);
 
@@ -331,8 +346,14 @@ export function reify_message_id(local_id, server_id) {
     message.id = server_id;
     message.locally_echoed = false;
 
+    if (message.draft_id) {
+        blueslip.log("Priyam, deleting draft id", message.draft_id);
+        drafts.draft_model.deleteDraft(message.draft_id);
+    }
+
     const opts = {old_id: Number.parseFloat(local_id), new_id: server_id};
 
+    blueslip.log("Do post reify tasks", opts);
     message_store.reify_message_id(opts);
     update_message_lists(opts);
     notifications.reify_message_id(opts);
@@ -340,6 +361,7 @@ export function reify_message_id(local_id, server_id) {
 }
 
 export function update_message_lists({old_id, new_id}) {
+    blueslip.log("update message lists", old_id, new_id);
     if (all_messages_data !== undefined) {
         all_messages_data.change_message_id(old_id, new_id);
     }
