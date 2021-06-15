@@ -155,6 +155,7 @@ const keypress_mappings = {
 };
 
 export function get_keydown_hotkey(e) {
+    console.log("get keydown hotkey", e);
     if (e.altKey) {
         return undefined;
     }
@@ -925,6 +926,7 @@ export function process_hotkey(e, hotkey) {
 export function process_keydown(e) {
     activity.set_new_user_input(true);
     const hotkey = get_keydown_hotkey(e);
+    console.log("hotkey", hotkey);
     if (!hotkey) {
         return false;
     }
@@ -939,6 +941,7 @@ $(document).on("keydown", (e) => {
 
 export function process_keypress(e) {
     const hotkey = get_keypress_hotkey(e);
+    console.log("keypress", hotkey);
     if (!hotkey) {
         return false;
     }
