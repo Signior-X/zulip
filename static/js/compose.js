@@ -639,10 +639,7 @@ export function validation_error(error_type, stream_name) {
             const new_row = render_compose_not_subscribed({
                 should_display_sub_button: stream_data.can_toggle_subscription(sub),
             });
-            compose_error.compose_not_subscribed_error(
-                new_row,
-                $("#stream_message_recipient_stream"),
-            );
+            compose_error.show_not_subscribed(new_row, $("#stream_message_recipient_stream"));
             return false;
         }
     }
