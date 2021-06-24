@@ -10,10 +10,7 @@ const $ = require("../zjsunit/zjquery");
 const compose_error = zrequire("compose_error");
 
 run_test("compose_error_test", () => {
-    compose_error.compose_error(
-        $t({defaultMessage: "You have nothing to send!"}),
-        $("#compose-textarea"),
-    );
+    compose_error.show($t({defaultMessage: "You have nothing to send!"}), $("#compose-textarea"));
 
     assert.ok($("#compose-send-status").hasClass("alert-error"));
     assert.equal($("#compose-error-msg").html(), $t({defaultMessage: "You have nothing to send!"}));

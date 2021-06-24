@@ -319,7 +319,7 @@ export function send_message(request = create_message_object()) {
         // If we're not local echo'ing messages, or if this message was not
         // locally echoed, show error in compose box
         if (!locally_echoed) {
-            compose_error.compose_error(_.escape(response), $("#compose-textarea"));
+            compose_error.show(_.escape(response), $("#compose-textarea"));
             return;
         }
 
@@ -500,7 +500,7 @@ function validate_stream_message_mentions(stream_id) {
     // stream, check if they permission to do so.
     if (wildcard_mention !== null && stream_count > wildcard_mention_large_stream_threshold) {
         if (!wildcard_mention_allowed()) {
-            compose_error.compose_error(
+            compose_error.show(
                 $t_html({
                     defaultMessage:
                         "You do not have permission to use wildcard mentions in this stream.",
@@ -560,7 +560,7 @@ function validate_stream_message_post_policy(sub) {
     const stream_post_policy = sub.stream_post_policy;
 
     if (stream_post_policy === stream_post_permission_type.admins.code) {
-        compose_error.compose_error(
+        compose_error.show(
             $t_html({
                 defaultMessage: "Only organization admins are allowed to post to this stream.",
             }),
@@ -573,7 +573,7 @@ function validate_stream_message_post_policy(sub) {
     }
 
     if (stream_post_policy === stream_post_permission_type.moderators.code) {
-        compose_error.compose_error(
+        compose_error.show(
             $t_html({
                 defaultMessage:
                     "Only organization admins and moderators are allowed to post to this stream.",
@@ -583,7 +583,7 @@ function validate_stream_message_post_policy(sub) {
     }
 
     if (page_params.is_guest && stream_post_policy !== stream_post_permission_type.everyone.code) {
-        compose_error.compose_error(
+        compose_error.show(
             $t_html({defaultMessage: "Guests are not allowed to post to this stream."}),
         );
         return false;
@@ -605,7 +605,7 @@ function validate_stream_message_post_policy(sub) {
             },
             {days},
         );
-        compose_error.compose_error(error_html);
+        compose_error.show(error_html);
         return false;
     }
     return true;
@@ -626,10 +626,10 @@ export function validation_error(error_type, stream_name) {
                     "z-link": (content_html) => `<a href='#streams/all'>${content_html}</a>`,
                 },
             );
-            compose_error.compose_error(response, $("#stream_message_recipient_stream"));
+            compose_error.show(response, $("#stream_message_recipient_stream"));
             return false;
         case "error":
-            compose_error.compose_error(
+            compose_error.show(
                 $t_html({defaultMessage: "Error checking subscription"}),
                 $("#stream_message_recipient_stream"),
             );
@@ -661,7 +661,7 @@ export function validate_stream_message_address_info(stream_name) {
 function validate_stream_message() {
     const stream_name = compose_state.stream_name();
     if (stream_name === "") {
-        compose_error.compose_error(
+        compose_error.show(
             $t_html({defaultMessage: "Please specify a stream"}),
             $("#stream_message_recipient_stream"),
         );
@@ -671,7 +671,7 @@ function validate_stream_message() {
     if (page_params.realm_mandatory_topics) {
         const topic = compose_state.topic();
         if (topic === "") {
-            compose_error.compose_error(
+            compose_error.show(
                 $t_html({defaultMessage: "Please specify a topic"}),
                 $("#stream_message_recipient_topic"),
             );
@@ -724,7 +724,7 @@ function validate_private_message() {
         const user_ids = compose_pm_pill.get_user_ids();
         if (user_ids.length !== 1 || !people.get_by_user_id(user_ids[0]).is_bot) {
             // Unless we're composing to a bot
-            compose_error.compose_error(
+            compose_error.show(
                 $t_html({defaultMessage: "Private messages are disabled in this organization."}),
                 $("#private_message_recipient"),
             );
@@ -733,7 +733,7 @@ function validate_private_message() {
     }
 
     if (compose_state.private_message_recipient().length === 0) {
-        compose_error.compose_error(
+        compose_error.show(
             $t_html({defaultMessage: "Please specify at least one valid recipient"}),
             $("#private_message_recipient"),
         );
@@ -748,14 +748,14 @@ function validate_private_message() {
     let context = {};
     if (invalid_recipients.length === 1) {
         context = {recipient: invalid_recipients.join(",")};
-        compose_error.compose_error(
+        compose_error.show(
             $t_html({defaultMessage: "The recipient {recipient} is not valid"}, context),
             $("#private_message_recipient"),
         );
         return false;
     } else if (invalid_recipients.length > 1) {
         context = {recipients: invalid_recipients.join(",")};
-        compose_error.compose_error(
+        compose_error.show(
             $t_html({defaultMessage: "The recipients {recipients} are not valid"}, context),
             $("#private_message_recipient"),
         );
@@ -774,7 +774,7 @@ export function validate() {
     }
 
     if (/^\s*$/.test(message_content)) {
-        compose_error.compose_error(
+        compose_error.show(
             $t_html({defaultMessage: "You have nothing to send!"}),
             $("#compose-textarea"),
         );
@@ -782,7 +782,7 @@ export function validate() {
     }
 
     if ($("#zephyr-mirror-error").is(":visible")) {
-        compose_error.compose_error(
+        compose_error.show(
             $t_html({
                 defaultMessage:
                     "You need to be running Zephyr mirroring in order to send messages!",
@@ -1158,7 +1158,7 @@ export function initialize() {
 
         function failure(error_msg) {
             clear_invites();
-            compose_error.compose_error(_.escape(error_msg), $("#compose-textarea"));
+            compose_error.show(_.escape(error_msg), $("#compose-textarea"));
             $(event.target).prop("disabled", true);
         }
 

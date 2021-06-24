@@ -66,7 +66,7 @@ export function schedule_message(request = compose.create_message_object()) {
     ) {
         $("#compose-textarea").prop("disabled", false);
         if (command_line.slice(command.length, command.length + 1) !== " ") {
-            compose_error.compose_error(
+            compose_error.show(
                 $t_html({
                     defaultMessage:
                         "Invalid slash command. Check if you are missing a space after the command.",
@@ -74,12 +74,12 @@ export function schedule_message(request = compose.create_message_object()) {
                 $("#compose-textarea"),
             );
         } else if (deliver_at.trim() === "") {
-            compose_error.compose_error(
+            compose_error.show(
                 $t_html({defaultMessage: "Please specify a date or time"}),
                 $("#compose-textarea"),
             );
         } else {
-            compose_error.compose_error(
+            compose_error.show(
                 $t_html({defaultMessage: "Your reminder note is empty!"}),
                 $("#compose-textarea"),
             );
@@ -105,7 +105,7 @@ export function schedule_message(request = compose.create_message_object()) {
     };
     const error = function (response) {
         $("#compose-textarea").prop("disabled", false);
-        compose_error.compose_error(_.escape(response), $("#compose-textarea"));
+        compose_error.show(_.escape(response), $("#compose-textarea"));
     };
     /* We are adding a disable on compose under this block because we
     want slash commands to be blocking in nature. */

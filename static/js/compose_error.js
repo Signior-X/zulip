@@ -2,7 +2,7 @@ import $ from "jquery";
 
 import * as common from "./common";
 
-export function compose_error(error_html, bad_input) {
+export function show(error_html, bad_input) {
     $("#compose-send-status")
         .removeClass(common.status_classes)
         .addClass("alert-error")
