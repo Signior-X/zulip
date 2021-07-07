@@ -106,6 +106,7 @@ function clear_box() {
     compose.clear_invites();
 
     // TODO: Better encapsulate at-mention warnings.
+    compose_validate.clear_topic_resolved_warning();
     compose_validate.clear_all_everyone_warnings();
     compose_validate.clear_announce_warnings();
     compose.clear_private_stream_alert();
@@ -273,6 +274,9 @@ export function start(msg_type, opts) {
 
     // Show either stream/topic fields or "You and" field.
     show_box(msg_type, opts);
+
+    // Show a warning if topic is resolved
+    compose_validate.warn_if_topic_resolved();
 
     // Reset the `max-height` property of `compose-textarea` so that the
     // compose-box do not cover the last messages of the current stream

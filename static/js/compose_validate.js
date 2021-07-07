@@ -3,17 +3,20 @@ import $ from "jquery";
 import render_compose_all_everyone from "../templates/compose_all_everyone.hbs";
 import render_compose_announce from "../templates/compose_announce.hbs";
 import render_compose_not_subscribed from "../templates/compose_not_subscribed.hbs";
+import render_compose_resolved_topic from "../templates/compose_resolved_topic.hbs";
 
 import * as channel from "./channel";
 import * as compose_error from "./compose_error";
 import * as compose_pm_pill from "./compose_pm_pill";
 import * as compose_state from "./compose_state";
 import {$t, $t_html} from "./i18n";
+import * as message_edit from "./message_edit";
 import {page_params} from "./page_params";
 import * as peer_data from "./peer_data";
 import * as people from "./people";
 import * as reminder from "./reminder";
 import * as settings_config from "./settings_config";
+import * as settings_data from "./settings_data";
 import * as stream_data from "./stream_data";
 import * as util from "./util";
 
@@ -23,6 +26,38 @@ let wildcard_mention;
 
 export const announce_warn_threshold = 60;
 export let wildcard_mention_large_stream_threshold = 15;
+
+export function clear_topic_resolved_warning() {
+    $("#compose_resolved_topic").hide();
+    $("#compose_resolved_topic").empty();
+    $("#compose-send-status").hide();
+}
+
+export function warn_if_topic_resolved() {
+    const stream_name = compose_state.stream_name();
+    const topic_name = compose_state.topic();
+
+    if (topic_name.startsWith(message_edit.RESOLVED_TOPIC_PREFIX)) {
+        const error_area = $("#compose_resolved_topic");
+
+        if (error_area.html()) {
+            return; // This warning already exists
+        }
+
+        const context = {
+            stream_name,
+            topic_name,
+            can_move_topic: settings_data.user_can_move_messages_between_streams(),
+        };
+
+        const new_row = render_compose_resolved_topic(context);
+        error_area.append(new_row);
+
+        error_area.show();
+    } else {
+        clear_topic_resolved_warning();
+    }
+}
 
 function show_all_everyone_warnings(stream_id) {
     const stream_count = peer_data.get_subscriber_count(stream_id) || 0;

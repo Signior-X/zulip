@@ -663,6 +663,32 @@ export function initialize() {
         $("#compose-send-status").hide();
     });
 
+    $("#compose_resolved_topic").on("click", ".compose_unresolve_topic", (event) => {
+        event.preventDefault();
+
+        const target = $(event.target).parents(".compose_resolved_topic");
+        const stream_id = Number.parseInt(target.attr("data-stream-id"), 10);
+        const topic_name = target.attr("data-topic-name");
+
+        // console.log("topi cname" + stream_id + topic_name);
+
+        // with_first_message_id(stream_id, topic_name, (message_id) => {
+        //     message_edit.toggle_resolve_topic(message_id, topic_name);
+        // });
+    });
+
+    $("#stream_message_recipient_topic").on("input change", (event) => {
+        // If topic is changed by writing or typeahead
+        // Check if the topic name is resolved or not
+        compose_validate.warn_if_topic_resolved();
+    });
+
+    $("#compose_resolved_topic").on("click", ".compose_resolved_topic_close", (event) => {
+        event.preventDefault();
+
+        compose_validate.clear_topic_resolved_warning();
+    });
+
     $("#compose_invite_users").on("click", ".compose_invite_link", (event) => {
         event.preventDefault();
 

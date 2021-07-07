@@ -267,6 +267,10 @@ function build_topic_popover(opts) {
     // can only edit the name within a stream.
     const can_move_topic = settings_data.user_can_move_messages_between_streams();
 
+    console.log("render");
+    console.log(topic_name);
+    console.log(topic_name.startsWith(message_edit.RESOLVED_TOPIC_PREFIX));
+
     const content = render_topic_sidebar_actions({
         stream_name: sub.name,
         stream_id: sub.stream_id,
